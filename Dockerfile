@@ -8,6 +8,8 @@ RUN npm ci
 
 COPY . .
 
+ARG OPENAI_API_KEY
+
 RUN npm run build
 
 EXPOSE 3000
