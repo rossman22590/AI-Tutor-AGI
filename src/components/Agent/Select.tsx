@@ -8,6 +8,8 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import { FC } from 'react';
 import Image from 'next/image';
 import { translate } from '../../utils/translate';
+import { InfoCard } from './InfoCard';
+import Link from 'next/link';
 
 interface Props {
   label: string;
@@ -43,13 +45,48 @@ export const Select: FC<Props> = ({ label, item, items, onChange }) => {
     ) : null;
     return badge;
   };
+  const linkMessage = () => {
+    return (
+      <label className="text-xs text-neutral-400 dark:text-neutral-400">
+        {translate('DESCRIPTION_BABYAGI')} {translate('FOR_MORE_DETAILS')}
+        <Link
+          href={'https://twitter.com/yoheinakajima/status/1657448504112091136'}
+          passHref
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          {translate('REFER_TO_THE_ORIGINAL_PAPER')}
+        </Link>
+      </label>
+    );
+  };
 
   return (
     <div className="relative w-full">
       <div className="flex w-full flex-col text-left text-xs">
-        <label className="mb-1 text-neutral-600 dark:text-neutral-400">
-          {label}
-        </label>
+        <div className="mb-0.5 flex items-center">
+          <label className="text-neutral-600 dark:text-neutral-400">
+            {label}
+          </label>
+          {item.message && item.id !== 'babyagi' ? (
+            <InfoCard alert={isAlert}>
+              <span
+                className={`p-1 font-mono text-xs ${
+                  isAlert
+                    ? 'text-red-400 dark:text-red-600'
+                    : 'text-right text-neutral-500 dark:text-neutral-400'
+                }`}
+              >
+                {isAlert
+                  ? `${translate(item.message as string, 'constants')} `
+                  : item.id !== 'babyagi'
+                  ? linkMessage()
+                  : `${item.message}`}
+              </span>
+            </InfoCard>
+          ) : null}
+        </div>
         <SelectPrimitive.Root onValueChange={onChange} defaultValue={item.id}>
           <SelectPrimitive.Trigger className="focus:shadow-outline inline-flex w-full cursor-pointer appearance-none items-center justify-between rounded-lg border border-neutral-200 p-3 text-xs text-neutral-600 focus:outline-none dark:border-neutral-600 dark:bg-[#343541] dark:text-white">
             <SelectPrimitive.Value>
@@ -96,19 +133,13 @@ export const Select: FC<Props> = ({ label, item, items, onChange }) => {
             </SelectPrimitive.ScrollDownButton>
           </SelectPrimitive.Content>
         </SelectPrimitive.Root>
-        {item.message && (
-          <span
-            className={`p-1 font-mono text-xs ${
-              isAlert
-                ? 'text-red-400 dark:text-red-600'
-                : 'text-right text-neutral-500 dark:text-neutral-400'
-            }`}
-          >
-            {isAlert
-              ? `${translate(item.message as string, 'constants')} `
-              : `${item.message}`}
-          </span>
-        )}
+        <div className="flex items-center justify-end">
+          {item.message && !isAlert && (
+            <span className="p-1 font-mono text-xs text-neutral-500 dark:text-neutral-400">
+              {item.message}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
