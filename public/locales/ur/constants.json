@@ -6,5 +6,12 @@
   "INFINITY": "انفینٹی",
   "LIGHT": "روشنی",
   "SYSTEM": "سسٹم",
-  "UNTIL_ALL_TASKS_COMPLETED": "تمام کام مکمل ہونے تک"
+  "UNTIL_ALL_TASKS_COMPLETED": "تمام کام مکمل ہونے تک",
+  "NOTIFICATION": "نوٹیفکیشن",
+  "NOTIFICATION_LABEL": "🔔 تمام کام مکمل ہوگئے",
+  "NOTIFICATION_TITLE": "کام مکمل ہوا!",
+  "NOTIFICATION_NOT_SUPPORTED": "یہ براؤزر ڈیسک ٹاپ نوٹیفکیشنز کی حمایت نہیں کرتا۔",
+  "NOTIFICATION_DINIED": "آپ نے نوٹیفکیشن کی اجازت کو منسوخ کردیا۔ براؤزر کی ترتیبات میں براہ کرم اس کی اجازت دیں۔",
+  "FIRST_TASK_PLACEHOLDER": "تکلیف کی فہرست تیار کریں",
+  "ALERT_GPT_4_DISABLED": "آپ کی API کی مدد سے GPT-4 تک رسائی نہیں ہے۔ براہ مہربانی GPT-4 کے علاوہ کوئی دوسرا ماڈل منتخب کریں اور اسے چلائیں۔"
 }

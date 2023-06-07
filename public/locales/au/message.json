@@ -20,5 +20,11 @@
   "TASK_RESULT_SUMMARY": "Task Result Summary",
   "TERMINATING": "Terminating...",
   "THINKING": "Thinking...",
-  "UPDATING": "♻️ Task Updating..."
+  "UPDATING": "♻️ Task Updating...",
+  "CURRENT_TASK": "Current Task",
+  "CURRENT_TASK_LIST": "Current Task List",
+  "TASK_FAILED": "Task Failed",
+  "TASK_FAILED_MESSAGE": "Task execution failed. Please check the task log.",
+  "OUTPUT_SUFFICIENCY": "Output Adequacy",
+  "SUFFICIENCY": "Checking task output sufficiency..."
 }

@@ -20,5 +20,11 @@
   "TASK_RESULT_SUMMARY": "Zusammenfassung der Aufgabenergebnisse",
   "TERMINATING": "Wird beendet...",
   "THINKING": "Denken...",
-  "UPDATING": "♻️ Aufgabenaktualisierung ..."
+  "UPDATING": "♻️ Aufgabenaktualisierung ...",
+  "CURRENT_TASK": "Aktuelle Aufgabe",
+  "CURRENT_TASK_LIST": "Aktuelle Aufgabenliste",
+  "TASK_FAILED": "Task fehlgeschlagen",
+  "TASK_FAILED_MESSAGE": "Fehler beim Ausführen der Aufgabe. Bitte prüfen Sie das Aufgabenprotokoll.",
+  "OUTPUT_SUFFICIENCY": "Ausgabeverfügbarkeit",
+  "SUFFICIENCY": "Überprüfung der Ausgabe des Tasks ausreichend..."
 }

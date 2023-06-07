@@ -3,10 +3,11 @@ import { translate } from './translate';
 
 export const setupMessage = (
   type: MessageType,
-  text: string,
+  text?: string,
   tool?: ToolType,
+  icon?: string,
 ): Message => {
-  const icon =
+  const defaultIcon =
     type === 'objective'
       ? '🎯'
       : type === 'task-list'
@@ -41,6 +42,10 @@ export const setupMessage = (
       ? '📄'
       : type === 'task-output' && tool === 'text-completion'
       ? '🤖'
+      : type === 'sufficiency-result'
+      ? '🤔'
+      : type === 'failed'
+      ? '❌'
       : '🤖';
 
   const title =
@@ -68,6 +73,10 @@ export const setupMessage = (
       ? translate('DONE', 'message')
       : type === 'complete'
       ? translate('FINISHED', 'message')
+      : type === 'failed'
+      ? translate('TASK_FAILED', 'message')
+      : type === 'sufficiency-result'
+      ? translate('OUTPUT_SUFFICIENCY', 'message')
       : '';
 
   const bgColor =
@@ -78,9 +87,9 @@ export const setupMessage = (
       : 'bg-gray-50 dark:bg-[#444654]';
 
   return {
-    text: text,
+    text: text ?? '',
     type: type,
-    icon: icon,
+    icon: icon ?? defaultIcon,
     title: title,
     bgColor: bgColor,
   };
@@ -119,6 +128,8 @@ export const loadingAgentMessage = (status: AgentStatus) => {
       ? translate('SUMMARIZING', 'message')
       : status.type === 'managing'
       ? translate('MANAGING', 'message')
+      : status.type === 'sufficiency'
+      ? translate('SUFFICIENCY', 'message')
       : translate('THINKING', 'message');
 
   let title = undefined;
@@ -156,4 +167,18 @@ export const getExportText = (messages: Message[]) => {
     .map((message) => `## ${message.icon} ${message.title}\n${message.text}`)
     .join('\n\n');
   return text;
+};
+
+export const getMessageSummaryTitle = (message?: Message) => {
+  if (!message) return '';
+
+  if (message.type === 'next-task') {
+    return translate('CURRENT_TASK', 'message');
+  } else if (message.type === 'task-list') {
+    return translate('CURRENT_TASK_LIST', 'message');
+  } else if (message.type === 'objective') {
+    return translate('OBJECTIVE', 'message');
+  } else {
+    return '';
+  }
 };

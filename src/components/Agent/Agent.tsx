@@ -1,4 +1,5 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import va from '@vercel/analytics';
 import {
   AgentStatus,
   AgentType,
@@ -24,13 +25,17 @@ import { useExecutionStatus } from '@/hooks/useExecutionStatus';
 import { translate } from '../../utils/translate';
 import { AgentMessageFooter } from './AgentMessageFooter';
 import axios from 'axios';
-import { AgentCollapsible } from './AgentCollapsible';
+import { taskCompletedNotification } from '@/utils/notification';
+import { MessageSummaryCard } from './MessageSummaryCard';
+import { useTranslation } from 'next-i18next';
 
 export const Agent: FC = () => {
-  const [model, setModel] = useState<SelectItem>(MODELS[0]);
+  const [model, setModel] = useState<SelectItem>(MODELS[1]);
   const [iterations, setIterations] = useState<SelectItem>(ITERATIONS[0]);
   const [objective, setObjective] = useState<string>('');
-  const [firstTask, setFirstTask] = useState<string>('Develop a task list');
+  const [firstTask, setFirstTask] = useState<string>(
+    translate('FIRST_TASK_PLACEHOLDER', 'constants'),
+  );
   const [messages, setMessages] = useState<Message[]>([]);
   const [agentStatus, setAgentStatus] = useState<AgentStatus>({
     type: 'ready',
@@ -38,8 +43,9 @@ export const Agent: FC = () => {
   const [agent, setAgent] = useState<BabyAGI | BabyBeeAGI | BabyCatAGI | null>(
     null,
   );
-  const [modeChecked, setModeChecked] = useState<boolean>(false);
   const [selectedAgent, setSelectedAgent] = useState<SelectItem>(AGENT[0]);
+  const { i18n } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const {
@@ -88,6 +94,10 @@ export const Agent: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
+  useEffect(() => {
+    setLanguage(i18n.language);
+  }, [i18n]);
+
   // manage data
   const saveNewData = async () => {
     const execution: Execution = {
@@ -118,8 +128,9 @@ export const Agent: FC = () => {
     setMessages((messages) => [...messages, message]);
 
     // show toast notification
-    if (message.type === 'complete') {
+    if (message.type === 'complete' || message.type === 'end-of-iterations') {
       toast.success(translate('ALL_TASKS_COMPLETED_TOAST', 'agent'));
+      taskCompletedNotification(objective);
     } else if (message.type === 'done') {
       toast.success(translate('TASK_COMPLETED_TOAST', 'agent'));
     }
@@ -129,10 +140,22 @@ export const Agent: FC = () => {
     setObjective(value);
   };
 
+  const cancelHandle = () => {
+    setAgent(null);
+    setExecuting(false);
+  };
+
   const startHandler = async () => {
     if (needSettingsAlert()) {
       alert(translate('ALERT_SET_UP_API_KEY', 'agent'));
       return;
+    }
+    if (model.id === 'gpt-4') {
+      const enabled = await enabledGPT4();
+      if (!enabled) {
+        alert(translate('ALERT_GPT_4_DISABLED', 'constants'));
+        return;
+      }
     }
 
     setMessages([]);
@@ -152,10 +175,8 @@ export const Agent: FC = () => {
           execution.id,
           messageHandler,
           setAgentStatus,
-          () => {
-            setAgent(null);
-            setExecuting(false);
-          },
+          cancelHandle,
+          language,
           verbose,
         );
         break;
@@ -166,10 +187,8 @@ export const Agent: FC = () => {
           firstTask,
           messageHandler,
           setAgentStatus,
-          () => {
-            setAgent(null);
-            setExecuting(false);
-          },
+          cancelHandle,
+          language,
           verbose,
         );
         break;
@@ -179,32 +198,42 @@ export const Agent: FC = () => {
           model.id,
           messageHandler,
           setAgentStatus,
-          () => {
-            setAgent(null);
-            setExecuting(false);
-          },
+          cancelHandle,
+          language,
           verbose,
         );
         break;
     }
     setAgent(agent);
     agent?.start();
+
+    va.track('Start', {
+      model: model.id,
+      agent: selectedAgent.id,
+      iterations: iterations.id,
+    });
   };
 
   const stopHandler = () => {
     setExecuting(false);
     agent?.stop();
+
+    va.track('Stop');
   };
 
   const clearHandler = () => {
     setMessages([]);
     selectExecution(undefined);
     setAgentStatus({ type: 'ready' });
+
+    va.track('New');
   };
 
   const copyHandler = () => {
     navigator.clipboard.writeText(getExportText(messages));
     toast.success(translate('COPIED_TO_CLIPBOARD', 'agent'));
+
+    va.track('CopyToClipboard');
   };
 
   const downloadHandler = () => {
@@ -216,6 +245,8 @@ export const Agent: FC = () => {
     element.download = `${objective.replace(/\s/g, '_')}.txt`;
     document.body.appendChild(element);
     element.click();
+
+    va.track('Download');
   };
 
   const feedbackHandler = (isGood: boolean) => {
@@ -296,6 +327,20 @@ export const Agent: FC = () => {
     return true;
   };
 
+  const enabledGPT4 = async () => {
+    const userSettings = localStorage.getItem(SETTINGS_KEY);
+    if (!userSettings) {
+      return false;
+    }
+
+    const { enabledGPT4 } = JSON.parse(userSettings) as UserSettings;
+    if (enabledGPT4 === undefined) {
+      return true; // If no value is given, its enabled by default
+    }
+
+    return enabledGPT4;
+  };
+
   const currentEvaluation = () => {
     const selectedExecution = executions.find(
       (exe) => exe.id === selectedExecutionId,
@@ -326,7 +371,7 @@ export const Agent: FC = () => {
         </>
       ) : (
         <div className="max-h-full overflow-scroll">
-          <AgentMessageHeader model={model} iterations={iterations} />
+          <AgentMessageHeader model={model} agent={selectedAgent} />
           {messages.map((message, index) => (
             <AgentMessage key={index} message={message} />
           ))}
@@ -354,6 +399,11 @@ export const Agent: FC = () => {
         agent={selectedAgent.id as AgentType}
         evaluation={currentEvaluation()}
       />
+      {isExecuting && messages.length > 0 && (
+        <div className="invisible fixed right-10 top-10 z-10 md:visible">
+          <MessageSummaryCard messages={messages} />
+        </div>
+      )}
     </div>
   );
 };

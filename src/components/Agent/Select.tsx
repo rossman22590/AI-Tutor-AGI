@@ -66,7 +66,7 @@ export const Select: FC<Props> = ({ label, item, items, onChange }) => {
     <div className="relative w-full">
       <div className="flex w-full flex-col text-left text-xs">
         <div className="mb-0.5 flex items-center">
-          <label className="text-neutral-600 dark:text-neutral-400">
+          <label className="text-neutral-400 dark:text-neutral-500">
             {label}
           </label>
           {item.message && item.id !== 'babyagi' ? (
@@ -87,7 +87,7 @@ export const Select: FC<Props> = ({ label, item, items, onChange }) => {
             </InfoCard>
           ) : null}
         </div>
-        <SelectPrimitive.Root onValueChange={onChange} defaultValue={item.id}>
+        <SelectPrimitive.Root onValueChange={onChange} value={item.id}>
           <SelectPrimitive.Trigger className="focus:shadow-outline inline-flex w-full cursor-pointer appearance-none items-center justify-between rounded-lg border border-neutral-200 p-3 text-xs text-neutral-600 focus:outline-none dark:border-neutral-600 dark:bg-[#343541] dark:text-white">
             <SelectPrimitive.Value>
               <div className="inline-flex h-5 items-center gap-2 truncate font-mono">
@@ -100,7 +100,7 @@ export const Select: FC<Props> = ({ label, item, items, onChange }) => {
               <ChevronDownIcon />
             </SelectPrimitive.Icon>
           </SelectPrimitive.Trigger>
-          <SelectPrimitive.Content>
+          <SelectPrimitive.Content className="z-10">
             <SelectPrimitive.ScrollUpButton className="flex items-center justify-center text-gray-700 dark:text-gray-300">
               <ChevronUpIcon />
             </SelectPrimitive.ScrollUpButton>
