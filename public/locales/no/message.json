@@ -20,5 +20,11 @@
   "TASK_RESULT_SUMMARY": "Oppsummering av oppgaveresultat",
   "TERMINATING": "Avslutter...",
   "THINKING": "Tenker...",
-  "UPDATING": "♻️ Oppgaveoppdatering..."
+  "UPDATING": "♻️ Oppgaveoppdatering...",
+  "CURRENT_TASK": "Nåværende oppgave",
+  "CURRENT_TASK_LIST": "Gjeldende Oppgaveliste",
+  "TASK_FAILED": "Oppgave mislyktes",
+  "TASK_FAILED_MESSAGE": "Klarte ikke å utføre oppgaven. Vennligst sjekk oppgaveloggen.",
+  "OUTPUT_SUFFICIENCY": "Utgangstilstrekkelighet",
+  "SUFFICIENCY": "Sjekker om oppgaveutdataene er tilstrekkelige..."
 }

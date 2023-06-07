@@ -13,12 +13,18 @@
   "SAVING": "कार्य सहेजे जा रहे हैं...",
   "SEARCH_LOGS": "खोज लॉग",
   "SESSION_SUMMARY": "सत्र सारांश",
-  "SUMMARIZING": "✍️ संक्षेप में...",
+  "SUMMARIZING": "✍️ संक्षेप...",
   "TASK_LIST": "कार्य सूची",
   "TASK_OUTPUT": "टास्क आउटपुट",
   "TASK_RESULT": "कार्य परिणाम",
   "TASK_RESULT_SUMMARY": "कार्य परिणाम सारांश",
   "TERMINATING": "समाप्त हो रहा है...",
   "THINKING": "विचार...",
-  "UPDATING": "♻️ टास्क अपडेट हो रहा है..."
+  "UPDATING": "♻️ टास्क अपडेट हो रहा है...",
+  "CURRENT_TASK": "वर्तमान कार्य",
+  "CURRENT_TASK_LIST": "वर्तमान कार्य सूची",
+  "TASK_FAILED": "कार्य असफल हुआ",
+  "TASK_FAILED_MESSAGE": "कार्य को निष्पादित करने में विफल। कृपया कार्य लॉग की जाँच करें।",
+  "OUTPUT_SUFFICIENCY": "आउटपुट पर्याप्तता",
+  "SUFFICIENCY": "तास्क आउटपुट पर्याप्तता की जांच हो रही है..."
 }

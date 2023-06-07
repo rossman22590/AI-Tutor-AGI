@@ -46,7 +46,9 @@ export type MessageType =
   | 'end-of-iterations'
   | 'session-summary'
   | 'done'
-  | 'complete';
+  | 'complete'
+  | 'failed'
+  | 'sufficiency-result';
 
 export type AgentStatusType =
   | 'preparing'
@@ -60,10 +62,19 @@ export type AgentStatusType =
   | 'closing'
   | 'updating'
   | 'summarizing'
-  | 'managing';
+  | 'managing'
+  | 'creating-stream' // for babycatagi
+  | 'executing-stream' // for babycatagi
+  | 'sufficiency'; // for mod
 
 export type UserSettings = {
   openAIApiKey?: string;
+  notifications?: boolean;
+  enabledGPT4?: boolean;
+};
+
+export type UIState = {
+  showSidebar: boolean;
 };
 
 export type ToolType = 'web-scrape' | 'web-search' | 'text-completion';

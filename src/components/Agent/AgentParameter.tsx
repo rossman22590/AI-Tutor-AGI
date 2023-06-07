@@ -2,8 +2,8 @@ import { FC, use, useEffect, useState } from 'react';
 import { Select } from './Select';
 import { SelectItem } from '@/types';
 import { AGENT, ITERATIONS, MODELS } from '@/utils/constants';
-import Link from 'next/link';
 import { translate } from '../../utils/translate';
+import { getUserApiKey } from '@/utils/settings';
 
 interface AgentParameterProps {
   model: SelectItem;
@@ -28,17 +28,22 @@ export const AgentParameter: FC<AgentParameterProps> = ({
 }) => {
   const [agentOption, setAgentOption] = useState<SelectItem[]>(AGENT);
   useEffect(() => {
+    let option: SelectItem[] = [];
     if (model.id !== 'gpt-4') {
-      setAgentOption(AGENT.filter((agent) => agent.id === 'babyagi'));
+      option = AGENT.filter((agent) => agent.id === 'babyagi');
+    } else if (!getUserApiKey()) {
+      // bui-mod-1 is only available for using client api key
+      option = AGENT.filter((agent) => agent.id !== 'bui-mod-1');
     } else {
-      setAgentOption(AGENT);
+      option = AGENT;
     }
-    setAgent(agentOption[0]);
-  }, [agentOption, model, setAgent]);
+    setAgent(option[0]);
+    setAgentOption(option);
+  }, [model]);
 
   return (
-    <div className="mx-auto flex flex-col items-start space-y-3 p-4 pt-12 lg:w-2/3 xl:w-2/4">
-      <div className="z-10 flex w-full items-start justify-center gap-2">
+    <div className="mx-auto flex flex-col items-start space-y-3 p-4 pt-14 lg:w-2/3 xl:w-2/4">
+      <div className="z-20 flex w-full items-start justify-center gap-2">
         <Select
           label={translate('MODEL')}
           item={model}
@@ -57,7 +62,7 @@ export const AgentParameter: FC<AgentParameterProps> = ({
         />
       </div>
       {agent.id === 'babyagi' && (
-        <div className="z-20 flex w-1/2 items-start pr-1 pt-2">
+        <div className="z-10 flex w-1/2 items-start pr-1">
           <Select
             label={translate('ITERATIONS')}
             item={iterations}
@@ -70,9 +75,9 @@ export const AgentParameter: FC<AgentParameterProps> = ({
           />
         </div>
       )}
-      {agent.id !== 'babycatagi' && (
+      {agent.id !== 'babycatagi' && agent.id !== 'bui-mod-1' && (
         <div className="flex w-full flex-col">
-          <label className="mb-2 text-left text-xs text-neutral-700 dark:text-neutral-400">
+          <label className="mb-2 text-left text-xs text-neutral-400 dark:text-neutral-500">
             {translate('FIRST_TASK')}
           </label>
           <input
@@ -80,24 +85,6 @@ export const AgentParameter: FC<AgentParameterProps> = ({
             value={firstTask}
             onChange={(e) => setFirstTask(e.target.value)}
           ></input>
-        </div>
-      )}
-      {agent.id !== 'babyagi' && (
-        <div className="flex w-full flex-col rounded bg-neutral-50 p-2 dark:bg-neutral-600 dark:bg-opacity-20">
-          <label className="pl-1 text-xs text-neutral-400 dark:text-neutral-400">
-            {translate('DESCRIPTION_BABYAGI')} {translate('FOR_MORE_DETAILS')}
-            <Link
-              href={
-                'https://twitter.com/yoheinakajima/status/1657448504112091136'
-              }
-              passHref
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
-              {translate('REFER_TO_THE_ORIGINAL_PAPER')}
-            </Link>
-          </label>
         </div>
       )}
     </div>

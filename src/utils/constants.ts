@@ -2,6 +2,7 @@ import { translate } from './translate';
 
 export const SETTINGS_KEY = 'BABYAGIUI_SETTINGS';
 export const EXECUTIONS_KEY = 'BABYAGIUI_EXECUTIONS';
+export const STATE_KEY = 'BABYAGIUI_STATE';
 
 export const MODELS = [
   {
@@ -41,20 +42,20 @@ export const AGENT = [
     id: 'babycatagi',
     name: 'BabyCatAGI',
     icon: '🐱',
-    message: 'TOOLS: 🤖/🔎+📄',
-    badge: 'NEW',
+    message: '🤖/🔎+📄',
+    badge: 'LATEST',
   },
   {
     id: 'babybeeagi',
     name: 'BabyBeeAGI',
     icon: '🐝',
-    message: 'TOOLS: 🤖/🔎/📄',
+    message: '🤖/🔎/📄',
   },
-  { id: 'babyagi', name: 'BabyAGI', icon: '👶', message: 'TOOLS: 🤖' },
+  { id: 'babyagi', name: 'BabyAGI', icon: '👶', message: '🤖' },
 ];
 
 export const THEME = [
-  { id: 'system', name: 'System', icon: '🖥️' },
-  { id: 'light', name: 'Light', icon: '🌞' },
-  { id: 'dark', name: 'Dark', icon: '🌚' },
+  { id: 'system', name: 'SYSTEM', icon: '🖥️' },
+  { id: 'light', name: 'LIGHT', icon: '🌞' },
+  { id: 'dark', name: 'DARK', icon: '🌚' },
 ];

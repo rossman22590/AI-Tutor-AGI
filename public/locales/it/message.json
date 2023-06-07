@@ -11,7 +11,7 @@
   "PREPARING": "Preparazione...",
   "PRIORITIZING": "Dare priorità alle attività...",
   "SAVING": "Salvataggio attività...",
-  "SEARCH_LOGS": "Cerca nei log",
+  "SEARCH_LOGS": "Cerca nei registri",
   "SESSION_SUMMARY": "Riepilogo della sessione",
   "SUMMARIZING": "✍️ Riassumendo...",
   "TASK_LIST": "Elenco delle attività",
@@ -20,5 +20,11 @@
   "TASK_RESULT_SUMMARY": "Riepilogo dei risultati dell'attività",
   "TERMINATING": "Chiusura...",
   "THINKING": "Pensiero...",
-  "UPDATING": "♻️ Aggiornamento attività..."
+  "UPDATING": "♻️ Aggiornamento attività...",
+  "CURRENT_TASK": "Compito Attuale",
+  "CURRENT_TASK_LIST": "Elenco Attività Corrente",
+  "TASK_FAILED": "Task Failed\" in Italian is \"Attività fallita\".",
+  "TASK_FAILED_MESSAGE": "Impossibile eseguire il compito. Controllare il registro del compito.",
+  "OUTPUT_SUFFICIENCY": "Sufficienza di output",
+  "SUFFICIENCY": "Verifica dell'adeguatezza dell'output del compito..."
 }

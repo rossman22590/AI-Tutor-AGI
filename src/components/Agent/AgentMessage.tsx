@@ -1,18 +1,34 @@
 import { Message } from '@/types';
 import { getMessageText } from '@/utils/message';
 import { UpdateIcon } from '@radix-ui/react-icons';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { translate } from '../../utils/translate';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import {
+  oneLight,
+  vscDarkPlus,
+} from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { AgentCollapsible } from './AgentCollapsible';
+import { useTheme } from 'next-themes';
 
 interface AgentMessageProps {
   message: Message;
 }
 
 const AgentMessage: FC<AgentMessageProps> = ({ message }) => {
+  const simpleTitle = message.title?.split('(')[0] ?? ''; // ex: 'Creating tasks... (*This process takes time. Please wait...*)'
+  const { theme, systemTheme } = useTheme();
+  const [highlightStyle, setHighlightStyle] = useState(oneLight);
+
+  useEffect(() => {
+    const isDark =
+      theme === 'system' ? systemTheme === 'dark' : theme === 'dark';
+    const style = isDark ? vscDarkPlus : oneLight;
+    setHighlightStyle(style);
+  }, [theme, systemTheme]);
+
   const contents = (
     <div className="prose dark:prose-invert prose-pre:bg-neutral-200 prose-pre:text-black dark:prose-pre:bg-neutral-800 dark:prose-pre:text-white">
       <ReactMarkdown
@@ -23,7 +39,7 @@ const AgentMessage: FC<AgentMessageProps> = ({ message }) => {
             return !inline && match ? (
               <SyntaxHighlighter
                 language={match[1]}
-                style={oneDark}
+                style={highlightStyle}
                 PreTag="div"
                 {...props}
               >
@@ -61,6 +77,9 @@ const AgentMessage: FC<AgentMessageProps> = ({ message }) => {
             </summary>
             {contents}
           </details>
+        ) : message.status?.type === 'creating-stream' ||
+          message.status?.type === 'executing-stream' ? (
+          <AgentCollapsible title={simpleTitle}>{contents}</AgentCollapsible>
         ) : (
           contents
         )}
