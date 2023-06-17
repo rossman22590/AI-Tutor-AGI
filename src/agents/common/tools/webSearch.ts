@@ -7,7 +7,6 @@ export const webSearch = async (query: string) => {
         api_key: process.env.SEARP_API_KEY,
         engine: 'google',
         q: query,
-        num: 5,
       },
     });
 
@@ -39,5 +38,6 @@ export const simplifySearchResults = (searchResults: SearchResult[]) => {
       snippet: result.snippet,
     });
   }
+
   return simplifiedResults;
 };

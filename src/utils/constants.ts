@@ -6,13 +6,13 @@ export const STATE_KEY = 'BABYAGIUI_STATE';
 
 export const MODELS = [
   {
-    id: 'gpt-4',
+    id: 'gpt-4-0613',
     name: 'OpenAI gpt-4',
     message: `GPT_4_WARNING`,
     icon: 'openai-logo.svg',
   },
   {
-    id: 'gpt-3.5-turbo',
+    id: 'gpt-3.5-turbo-0613',
     name: 'OpenAI gpt-3.5-turbo',
     icon: 'openai-logo.svg',
   },
@@ -39,11 +39,17 @@ export const BABYBEEAGI_ITERATIONS = [
 
 export const AGENT = [
   {
+    id: 'babydeeragi',
+    name: 'BabyDeerAGI',
+    icon: '🦌',
+    message: '🤖/🔎+📄/🧑‍💻',
+    badge: 'NEW',
+  },
+  {
     id: 'babycatagi',
     name: 'BabyCatAGI',
     icon: '🐱',
     message: '🤖/🔎+📄',
-    badge: 'LATEST',
   },
   {
     id: 'babybeeagi',
