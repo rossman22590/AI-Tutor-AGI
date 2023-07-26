@@ -19,4 +19,6 @@ ENV SEARP_API_KEY=""
 
 EXPOSE 3000
 
-ENTRYPOINT [ "npm", "start" ]
+# ENTRYPOINT [ "npm", "start" ]
+
+CMD [ "npm", "run", "dev" ]
