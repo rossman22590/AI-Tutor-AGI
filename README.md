@@ -1,4 +1,4 @@
-# 👶🤖🖥️ BabyAGI UI
+# 👶🤖🖥️ BabyAGI UI 
  
 [![GitHub last commit](https://img.shields.io/github/last-commit/miurla/babyagi-ui)](https://github.com/miurla/babyagi-ui/commit/main)
 [![Discord](https://img.shields.io/discord/1111177037055529012)](https://discord.gg/8nMD4X6RJm)
