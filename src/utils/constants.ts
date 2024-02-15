@@ -12,13 +12,13 @@ export const MODELS = [
     icon: 'openai-logo.svg',
     badge: 'Preview',
   },
+  // {
+  //   id: 'gpt-4-1106-preview',
+  //   name: 'OpenAI GPT-4',
+  //   icon: 'openai-logo.svg',
+  // },
   {
-    id: 'gpt-4',
-    name: 'OpenAI GPT-4',
-    icon: 'openai-logo.svg',
-  },
-  {
-    id: 'gpt-3.5-turbo',
+    id: 'gpt-3.5-turbo-0125',
     name: 'OpenAI GPT-3.5 Turbo',
     icon: 'openai-logo.svg',
   },
